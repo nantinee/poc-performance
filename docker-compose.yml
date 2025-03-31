@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mock_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: mockdb
+      # Set max connections
+      MONGODB_MAX_CONNECTIONS: 1500
+    command: mongod --wiredTigerCacheSizeGB 1.5 --maxConns 1500
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"         # 0.5 vCPUs
+          memory: "1.7GB"     # 1.7 GB RAM
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - performance_network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  performance_network:
+    driver: bridge

@@ -9,4 +9,4 @@
   mongo:6.0```
 # call api
 curl -X POST http://localhost:3000/test-express          
-curl -X POST http://localhost:4000/test-fastify
+curl -X POST http://localhost:4000/test-fastify# poc-performance

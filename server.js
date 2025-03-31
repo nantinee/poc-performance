@@ -73,7 +73,7 @@ const worker = new Worker(
     }
   },
   { connection: { host: "localhost", port: 6379 } }
-);
+);  
 // ✅ Bull Queue Processor
 insertQueue.process(async (job) => {
   console.log(`Processing Bull batch: ${job.id}, Size: ${job.data.batch.length}`);

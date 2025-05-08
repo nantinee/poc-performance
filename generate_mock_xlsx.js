@@ -4,28 +4,40 @@ const fs = require("fs");
 
 // Function to generate 1000 mock rows
 function generateMockData() {
-  const thaiProvinces = [
-    "Bangkok", "Chiang Mai", "Phuket", "Khon Kaen", "Pattaya", "Samut Prakan",
-    "Nakhon Ratchasima", "Chonburi", "Hat Yai", "Surat Thani", "Udon Thani"
-  ];
+  const provinceZipMap = {
+    "ตำบล/แขวง พระบรมมหาราชวัง เขตพระนคร กรุงเทพมหานคร": "10200",
+    "ตำบลศรีภูมิ อำเภอเมืองเชียงใหม่ เชียงใหม่": "50000",
+    "ตำบลตลาดใหญ่ อำเภอเมืองภูเก็ต ภูเก็ต": "83000",
+    "ตำบลในเมือง อำเภอเมืองขอนแก่น  ขอนแก่น": "40000",
+    "ตำบลหนองปรือ อำเภอบางละมุง พัทยา ชลบุรี": "20150",
+    "ตำบลปากน้ำ อำเภอเมืองสมุทรปราการ สมุทรปราการ": "10270",
+    "ตำบลในเมือง อำเภอเมืองนครราชสีมา นครราชสีมา": "30000",
+    "ตำบลบ้านสวน อำเภอเมืองชลบุรี ชลบุรี": "20000",
+    "ตำบลหาดใหญ่ อำเภอหาดใหญ่ หาดใหญ่": "90110",
+    "ตำบลตลาด อำเภอเมืองสุราษฎร์ธานี สุราษฎร์ธานี": "84000",
+    "ตำบลหมากแข้ง อำเภอเมืองอุดรธานี อุดรธานี": "41000"
+  };
+  const thaiProvinces = Object.keys(provinceZipMap);
 
   const data = [];
   for (let i = 1; i <= 1000; i++) {
     const provinceSender = thaiProvinces[Math.floor(Math.random() * thaiProvinces.length)];
     const provinceReceiver = thaiProvinces[Math.floor(Math.random() * thaiProvinces.length)];
+    const zipSender = provinceZipMap[provinceSender];
+    const zipReceiver = provinceZipMap[provinceReceiver];
 
     const note = Math.random() > 0.5 ? `Note ${i}` : "";
     data.push([
       `Sender ${i}`, 
       `0987${i.toString().padStart(6, "0")}`, 
       `Address ${i}, ${provinceSender}, Thailand`, 
-      `10${i % 90}`,
+      zipSender,
       `Receiver ${i}`, 
       `0812${i.toString().padStart(6, "0")}`, 
       `Address ${i}, ${provinceReceiver}, Thailand`, 
-      `20${i % 90}`,
+      zipReceiver,
       Math.floor(Math.random() * 5000) + 500, // น้ำหนัก (กรัม)
-      ["Document", "Electronics", "Clothing", "Food"][Math.floor(Math.random() * 4)], // ประเภทพัสดุ
+      note? "COD": "Non-COD", // ประเภทพัสดุ
       note, // หมายเหตุ (อาจไม่มี)
       note? (Math.random() * 5000).toFixed(2): '', // มูลค่า COD
       note? ["Gadget", "Accessory", "Clothes", "Food"][Math.floor(Math.random() * 4)] : '', // ประเภทสินค้า
@@ -43,7 +55,7 @@ function generateMockData() {
 const headers = [
   ["ข้อมูลผู้ส่ง", "", "", "", "ข้อมูลผู้รับ", "", "", "", "ข้อมูลพัสดุ", "", "", "ข้อมูล COD", "", "", "", "", "", ""],
   ["ชื่อผู้ส่ง", "เบอร์โทรผู้ส่ง", "ที่อยู่ผู้ส่ง", "รหัสไปรษณีย์", "ชื่อผู้รับ", "เบอร์โทรผู้รับ", "ที่อยู่ผู้รับ", "รหัสไปรษณีย์", 
-   "น้ำหนัก (กรัม)", "ประเภทพัสดุ", "หมายเหตุ", "มูลค่า COD", "ประเภทสินค้า", "ชนิดสินค้า", "ขนาด", "สี", "จำนวน"]
+   "น้ำหนัก (กรัม)", "ประเภทพัสดุ", "หมายเหตุ (ไม่บังคับ)", "มูลค่า COD", "ข้อมูลสินค้า COD : ประเภทสินค้า", "ข้อมูลสินค้า COD : ชนิดสินค้า", "ข้อมูลสินค้า COD : ขนาด", "ข้อมูลสินค้า COD : สี", "ข้อมูลสินค้า COD : จำนวน"]
 ];
 
 

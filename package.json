@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "start:gen_excel": "node generate_mock_xlsx.js"
   },
   "dependencies": {
     "agenda": "^5.0.0",
